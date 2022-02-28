@@ -859,7 +859,7 @@ void TestNode(const NodeRef& node, FuzzedDataProvider& provider)
 } // namespace
 
 /** Fuzz target that runs TestNode on nodes generated using ConsumeNodeStable. */
-FUZZ_TARGET(miniscript_random_stable)
+FUZZ_TARGET(miniscript_stable)
 {
     FuzzedDataProvider provider(buffer.data(), buffer.size());
     TestNode(GenNode([&](Type) {
@@ -868,7 +868,7 @@ FUZZ_TARGET(miniscript_random_stable)
 }
 
 /** Fuzz target that runs TestNode on nodes generated using ConsumeNodeSmart. */
-FUZZ_TARGET(miniscript_random_smart)
+FUZZ_TARGET(miniscript_smart)
 {
     /** The set of types we aim to construct nodes for. Together they cover all. */
     static constexpr std::array<Type, 4> BASE_TYPES{"B"_mst, "V"_mst, "K"_mst, "W"_mst};
