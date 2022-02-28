@@ -841,3 +841,18 @@ FUZZ_TARGET(miniscript_random_smart)
         return ConsumeNodeSmart(provider, needed_type);
     }, PickValue(provider, BASE_TYPES)), provider);
 }
+
+/* Fuzz tests that test parsing from a string, and roundtripping via string. */
+FUZZ_TARGET(miniscript_string)
+{
+    FuzzedDataProvider provider(buffer.data(), buffer.size());
+    auto str = provider.ConsumeRemainingBytesAsString();
+    auto parsed = miniscript::FromString(str, PARSER_CTX);
+    if (!parsed) return;
+
+    std::string str2;
+    assert(parsed->ToString(PARSER_CTX, str2));
+    auto parsed2 = miniscript::FromString(str, PARSER_CTX);
+    assert(parsed2);
+    assert(*parsed == *parsed2);
+}
